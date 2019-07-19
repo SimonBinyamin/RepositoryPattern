@@ -1,0 +1,56 @@
+﻿@model FileView
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<script>
+    function onChoose() {
+        $("input[type='file']").change(function () {
+            document.getElementById("fileSelectedResult").value = "1 is selected";
+        });
+        document.getElementById('myFileInput').click();
+    }
+</script>
+
+@if (Model!=null)
+{
+    <table class="table">
+        <tr>
+            <th class="text-color-lightblue">Name</th>
+            <th class="text-color-lightblue">Date</th>
+        </tr>
+
+        @foreach (var file in @Model.Files)
+        {
+            <tr>
+                <td><button class="btn btn-sm btn-edituser"><i class="fa fa-file-archive"></i></button><a href="Download/@file.FileID"> @file.Name</a></td>
+                <td>@file.Date.ToShortDateString()</td>
+            </tr>
+        }
+    </table>
+}
+
+
+
+
+<form asp-controller="UserFile" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row personal-form-flex">
+        <div class="col-md-3">
+            <button onclick="onChoose()" class="btn btn-personal" type="button">Choose</button>
+            <input id="myFileInput" class="hide-input" type="file" name="Model.File" />
+        </div>
+
+        <div class="col-md-3">
+            <input id="fileSelectedResult" placeholder="0 is select" class="btn btn-personal" type="text" disabled />
+        </div>
+
+        <div class="col-md-3">
+            <button class="upload btn btn-personal" type="submit">Upload</button>
+        </div>
+    </div>
+</form>
+
+
